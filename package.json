@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/NekoSakuraLucia/Music-Bot-Simple/issues"
   },
-  "homepage": "https://github.com/NekoSakuraLucia/Music-Bot-Simple#readme"
+  "homepage": "https://github.com/NekoSakuraLucia/Music-Bot-Simple#readme",
+  "dependencies": {
+    "discord.js": "^14.18.0"
+  }
 }
