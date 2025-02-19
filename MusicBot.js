@@ -1,18 +1,10 @@
 const { Client, GatewayIntentBits, Events } = require("discord.js");
-const { Shoukaku, Connectors } = require("shoukaku");
+const { LavalinkManager } = require("lavalink-client");
 require("dotenv").config();
-
-const Nodes = [
-  {
-    name: process.env.LAVALINK_NAME,
-    url: process.env.LAVALINK_URI,
-    auth: process.env.LAVALINK_PASSWORD,
-  },
-];
 
 class MusicBot {
   client;
-  shoukaku;
+  lavalink;
 
   constructor() {
     this.client = new Client({
@@ -20,18 +12,38 @@ class MusicBot {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates,
       ],
     });
 
-    this.shoukaku = new Shoukaku(new Connectors.DiscordJS(this.client), Nodes);
-    this.shoukaku.on("error", (_, error) => console.error(error));
-    this.shoukaku.once("ready", (name) =>
-      console.log(`Shoukaku is Ready! ${name}`),
+    this.lavalink = new LavalinkManager({
+      nodes: [
+        {
+          authorization: process.env.LAVALINK_PASSWORD,
+          host: process.env.LAVALINK_URI,
+          port: parseInt(process.env.LAVALINK_PORT),
+          id: "testnode",
+        },
+      ],
+      sendToShard: (guildId, payload) =>
+        client.guilds.cache.get(guildId)?.shard?.send(payload),
+      autoSkip: true,
+      client: {
+        id: process.env.DISCORD_BOT_CLIENT_ID,
+        username: "TESTBOT",
+      },
+    });
+
+    this.client.on("raw", (d) => this.lavalink.sendRawData(d));
+    this.client.on(
+      Events.ClientReady,
+      () => console.log(`Logged in as ${this.client.user.tag}!`),
+      this.lavalink.init(this.client.user),
     );
 
-    this.client.on(Events.ClientReady, () =>
-      console.log(`Logged in as ${this.client.user.tag}!`),
-    );
+    this.lavalink.nodeManager.on("connect", (node) => {
+      console.log(`Lavalink is Ready on ${node.id}`);
+    });
   }
 
   start() {
