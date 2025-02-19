@@ -26,7 +26,7 @@ class MusicBot {
         },
       ],
       sendToShard: (guildId, payload) =>
-        client.guilds.cache.get(guildId)?.shard?.send(payload),
+        this.client.guilds.cache.get(guildId)?.shard?.send(payload),
       autoSkip: true,
       client: {
         id: process.env.DISCORD_BOT_CLIENT_ID,
