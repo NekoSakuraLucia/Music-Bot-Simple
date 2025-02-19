@@ -35,9 +35,16 @@ class MusicBot {
     });
 
     this.client.on("raw", (d) => this.client.lavalink.sendRawData(d));
-    this.client.lavalink.nodeManager.on("connect", (node) => {
-      console.log(`Lavalink is Ready on ${node.id}`);
-    });
+    this.client.lavalink.nodeManager
+      .on("connect", (node) => {
+        console.log(`Lavalink is Ready on ${node.id}`);
+      })
+      .on("disconnect", (node) => {
+        console.log(`Lavalink is Disconnect on ${node.id}`);
+      })
+      .on("reconnecting", (node) => {
+        console.log(`Lavalink is Reconnecting on ${node.id}`);
+      });
 
     new EventLoader(this.client);
   }
