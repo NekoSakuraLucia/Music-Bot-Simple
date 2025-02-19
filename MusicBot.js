@@ -1,10 +1,10 @@
 const { Client, GatewayIntentBits, Events } = require("discord.js");
 const { LavalinkManager } = require("lavalink-client");
+const { EventLoader } = require("./utils/loadEvents");
 require("dotenv").config();
 
 class MusicBot {
   client;
-  lavalink;
 
   constructor() {
     this.client = new Client({
@@ -16,7 +16,7 @@ class MusicBot {
       ],
     });
 
-    this.lavalink = new LavalinkManager({
+    this.client.lavalink = new LavalinkManager({
       nodes: [
         {
           authorization: process.env.LAVALINK_PASSWORD,
@@ -34,16 +34,12 @@ class MusicBot {
       },
     });
 
-    this.client.on("raw", (d) => this.lavalink.sendRawData(d));
-    this.client.on(
-      Events.ClientReady,
-      () => console.log(`Logged in as ${this.client.user.tag}!`),
-      this.lavalink.init(this.client.user),
-    );
-
-    this.lavalink.nodeManager.on("connect", (node) => {
+    this.client.on("raw", (d) => this.client.lavalink.sendRawData(d));
+    this.client.lavalink.nodeManager.on("connect", (node) => {
       console.log(`Lavalink is Ready on ${node.id}`);
     });
+
+    new EventLoader(this.client);
   }
 
   start() {
