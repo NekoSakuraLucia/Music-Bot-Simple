@@ -2,9 +2,8 @@ const { readdirSync } = require("fs");
 const path = require("path");
 
 class EventLoader {
-  constructor(client, lavalink) {
+  constructor(client) {
     this.client = client;
-    this.lavalink = lavalink;
     this.loadEvents();
   }
 
