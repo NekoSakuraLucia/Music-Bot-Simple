@@ -1,6 +1,7 @@
-const { Client, GatewayIntentBits, Events } = require("discord.js");
+const { Client, GatewayIntentBits, Events, Collection } = require("discord.js");
 const { LavalinkManager } = require("lavalink-client");
 const { EventLoader } = require("./utils/loadEvents");
+const { CommandLoader } = require("./utils/loadCommands");
 require("dotenv").config();
 
 class MusicBot {
@@ -16,8 +17,15 @@ class MusicBot {
       ],
     });
 
+    this.client.commands = new Collection();
     this.initializeLavalink();
     new EventLoader(this.client);
+    new CommandLoader(
+      this.client,
+      process.env.DISCORD_BOT_TOKEN,
+      process.env.DISCORD_BOT_CLIENT_ID,
+      process.env.DISCORD_BOT_GUILD_ID,
+    );
   }
 
   initializeLavalink() {
