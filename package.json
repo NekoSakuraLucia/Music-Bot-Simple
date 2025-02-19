@@ -1,0 +1,19 @@
+{
+  "name": "bot-simple",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NekoSakuraLucia/Music-Bot-Simple.git"
+  },
+  "author": "NekoSakuraLucia (Cxllme Neko)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NekoSakuraLucia/Music-Bot-Simple/issues"
+  },
+  "homepage": "https://github.com/NekoSakuraLucia/Music-Bot-Simple#readme"
+}
