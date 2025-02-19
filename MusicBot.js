@@ -16,6 +16,11 @@ class MusicBot {
       ],
     });
 
+    this.initializeLavalink();
+    new EventLoader(this.client);
+  }
+
+  initializeLavalink() {
     this.client.lavalink = new LavalinkManager({
       nodes: [
         {
@@ -45,8 +50,6 @@ class MusicBot {
       .on("reconnecting", (node) => {
         console.log(`Lavalink is Reconnecting on ${node.id}`);
       });
-
-    new EventLoader(this.client);
   }
 
   start() {
