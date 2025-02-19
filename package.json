@@ -19,6 +19,6 @@
   "dependencies": {
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
-    "shoukaku": "^4.1.1"
+    "lavalink-client": "^2.4.7"
   }
 }
