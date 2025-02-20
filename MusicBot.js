@@ -35,7 +35,7 @@ class MusicBot {
           authorization: process.env.LAVALINK_PASSWORD,
           host: process.env.LAVALINK_URI,
           port: parseInt(process.env.LAVALINK_PORT),
-          id: "testnode",
+          id: process.env.LAVALINK_NAME,
         },
       ],
       sendToShard: (guildId, payload) =>
