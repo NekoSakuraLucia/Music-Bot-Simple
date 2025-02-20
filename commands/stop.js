@@ -9,9 +9,13 @@ module.exports = {
       if (!interaction.guildId) return;
       await interaction.deferReply();
 
+      const voiceId = interaction.member.voice.channelId;
+      if (!voiceId) return interaction.editReply("คุณยังไม่ได้อยู่ในช่องเสียง");
       const player = client.lavalink.getPlayer(interaction.guildId);
-      await player.destroy();
+      if (!player)
+        return interaction.editReply("บอทไม่ได้เชื่อมต่อกับช่องเสียง");
 
+      await player.destroy();
       return interaction.editReply("หยุดเพลง และ ออกจากช่องเสียงแล้ว!");
     } catch (error) {
       console.error(error);
