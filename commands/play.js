@@ -15,9 +15,12 @@ module.exports = {
       if (!interaction.guildId) return;
       await interaction.deferReply();
 
+      const voiceId = interaction.member.voice.channelId;
+      if (!voiceId) return interaction.editReply("คุณยังไม่ได้อยู่ในช่องเสียง");
+
       const player = client.lavalink.createPlayer({
         guildId: interaction.guildId,
-        voiceChannelId: interaction.member.voice.channelId,
+        voiceChannelId: voiceId,
         textChannelId: interaction.channelId,
         selfDeaf: true,
         selfMute: false,
